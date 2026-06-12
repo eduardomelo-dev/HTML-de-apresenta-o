@@ -1,0 +1,1494 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ControlX - Apresentação Sistema Completo</title>
+    <style>
+      :root {
+        --bg: #09090b;
+        --panel: #18181b;
+        --panel-2: #27272a;
+        --text: #f4f4f5;
+        --muted: #a1a1aa;
+        --border: rgba(255, 255, 255, 0.12);
+        --blue: #3b82f6;
+        --green: #10b981;
+        --red: #ef4444;
+        --orange: #f59e0b;
+        --purple: #8b5cf6;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow: hidden;
+        background:
+          radial-gradient(
+            circle at 16% 12%,
+            rgba(59, 130, 246, 0.2),
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at 82% 16%,
+            rgba(16, 185, 129, 0.14),
+            transparent 24%
+          ),
+          radial-gradient(
+            circle at 50% 92%,
+            rgba(245, 158, 11, 0.12),
+            transparent 25%
+          ),
+          linear-gradient(135deg, #09090b 0%, #111827 50%, #0f172a 100%);
+        color: var(--text);
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+
+      .deck {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        padding: 22px;
+        gap: 18px;
+      }
+
+      .topbar,
+      .controls {
+        width: min(1200px, 100%);
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 900;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--blue), #60a5fa);
+        box-shadow: 0 0 28px rgba(59, 130, 246, 0.34);
+      }
+
+      .brand span span {
+        color: var(--blue);
+      }
+
+      .counter,
+      .hint {
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .stage {
+        width: min(1200px, 100%);
+        height: min(690px, calc(100vh - 150px));
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(24, 24, 27, 0.88);
+        box-shadow: var(--shadow);
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: none;
+        grid-template-columns: 1.02fr 0.98fr;
+        align-items: center;
+        gap: 32px;
+        padding: 48px 54px;
+        animation: enter 0.22s ease;
+        overflow-y: auto;
+      }
+
+      .slide.active {
+        display: grid;
+      }
+
+      .slide.cover,
+      .slide.full {
+        grid-template-columns: 1fr;
+      }
+
+      .slide.cover {
+        place-items: center;
+        text-align: center;
+      }
+
+      @keyframes enter {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .kicker {
+        margin-bottom: 14px;
+        color: var(--blue);
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .cover .kicker {
+        color: var(--green);
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        line-height: 1.03;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        max-width: 100%;
+        font-size: clamp(40px, 6vw, 68px);
+        line-height: 1.1;
+        word-wrap: break-word;
+      }
+
+      h2 {
+        font-size: clamp(30px, 4.5vw, 48px);
+        line-height: 1.2;
+      }
+
+      p {
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: clamp(16px, 2.5vw, 20px);
+        line-height: 1.55;
+      }
+
+      ul {
+        margin: 22px 0 0;
+        padding: 0;
+        display: grid;
+        gap: 13px;
+        list-style: none;
+      }
+
+      li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        color: #e4e4e7;
+        font-size: clamp(16px, 2.3vw, 20px);
+        line-height: 1.38;
+      }
+
+      li::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        margin-top: 10px;
+        border-radius: 999px;
+        background: var(--blue);
+        flex: 0 0 auto;
+      }
+
+      .visual {
+        min-height: 370px;
+        padding: 22px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.06),
+            rgba(255, 255, 255, 0.02)
+          ),
+          #111113;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        min-height: 104px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px;
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text);
+        font-size: 18px;
+      }
+
+      .card span {
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .flow-item {
+        min-height: 110px;
+        display: grid;
+        place-items: center;
+        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.045);
+        text-align: center;
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .arrow {
+        color: var(--blue);
+        font-size: 34px;
+        font-weight: 900;
+      }
+
+      .code {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: #09090b;
+        color: #d4d4d8;
+        padding: 18px;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 17px;
+        line-height: 1.55;
+        white-space: pre-wrap;
+      }
+
+      .pill-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .pill {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        font-weight: 900;
+      }
+
+      .metric {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      .mini {
+        min-height: 88px;
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      .mini span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .mini strong {
+        display: block;
+        margin-top: 10px;
+        font-size: 24px;
+      }
+
+      .schema {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .table-box {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      .table-title {
+        padding: 12px 14px;
+        background: rgba(59, 130, 246, 0.16);
+        color: #bfdbfe;
+        font-weight: 900;
+      }
+
+      .table-box div:not(.table-title) {
+        padding: 10px 14px;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+      }
+
+      .final-slide {
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: center;
+        background:
+          linear-gradient(135deg, rgba(59, 130, 246, 0.18), transparent 34%),
+          linear-gradient(315deg, rgba(16, 185, 129, 0.2), transparent 38%),
+          rgba(24, 24, 27, 0.94);
+      }
+
+      .final-slide h1 {
+        max-width: 100%;
+        font-size: clamp(44px, 6.5vw, 72px);
+        line-height: 1.1;
+      }
+
+      .final-copy {
+        max-width: 560px;
+      }
+
+      .photo-frame {
+        min-height: 380px;
+        max-height: 520px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 18px;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.03)
+          ),
+          #111113;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        position: relative;
+        padding: 20px;
+      }
+
+      .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .photo-placeholder {
+        padding: 28px;
+        text-align: center;
+      }
+
+      .photo-placeholder strong {
+        display: block;
+        color: var(--text);
+        font-size: 30px;
+        line-height: 1.15;
+      }
+
+      .photo-placeholder span {
+        display: block;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.45;
+      }
+
+      .final-audio {
+        display: none;
+        width: 100%;
+        margin-top: 22px;
+        accent-color: var(--green);
+      }
+
+      button {
+        min-height: 42px;
+        min-width: 46px;
+        padding: 0 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        font: inherit;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: rgba(59, 130, 246, 0.18);
+        border-color: rgba(59, 130, 246, 0.5);
+      }
+
+      button:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+
+      @media (max-width: 900px) {
+        body {
+          overflow: auto;
+        }
+
+        .stage {
+          height: auto;
+          min-height: 760px;
+        }
+
+        .slide,
+        .slide.active {
+          position: static;
+          display: none;
+          grid-template-columns: 1fr;
+          padding: 34px 24px;
+        }
+
+        .slide.active {
+          display: grid;
+        }
+
+        .flow,
+        .schema,
+        .cards,
+        .metric,
+        .final-slide {
+          grid-template-columns: 1fr;
+        }
+
+        .photo-frame {
+          min-height: 340px;
+        }
+
+        .arrow {
+          transform: rotate(90deg);
+          text-align: center;
+        }
+
+        p,
+        li {
+          font-size: 18px;
+        }
+      }
+
+      @media print {
+        body {
+          overflow: visible;
+          color: #111827;
+          background: #fff;
+        }
+
+        .topbar,
+        .controls {
+          display: none;
+        }
+
+        .deck {
+          display: block;
+          padding: 0;
+        }
+
+        .stage {
+          width: 100%;
+          height: auto;
+          border: 0;
+          box-shadow: none;
+          background: #fff;
+          overflow: visible;
+        }
+
+        .slide,
+        .slide.active {
+          position: relative;
+          display: grid;
+          min-height: 100vh;
+          page-break-after: always;
+          background: #fff;
+          color: #111827;
+        }
+
+        p,
+        li,
+        .counter,
+        .hint,
+        .card span,
+        .table-box div:not(.table-title) {
+          color: #374151;
+        }
+
+        .visual,
+        .card,
+        .flow-item,
+        .mini,
+        .table-box,
+        .code,
+        .photo-frame {
+          border-color: #d1d5db;
+          background: #f9fafb;
+          color: #111827;
+        }
+
+        .final-audio {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="deck">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">X</span>
+          <span>Control<span>X</span></span>
+        </div>
+        <div class="counter" id="counter">Slide 1 de 37</div>
+      </header>
+
+      <section class="stage" aria-live="polite">
+        <article class="slide cover active">
+          <div>
+            <div class="kicker">Apresentação</div>
+            <h1>
+              ControlX Estoque: Sistema completo integrado com backend,
+              frontend, banco de dados e IA Codex
+            </h1>
+            <p>
+              38 slides explicando a arquitetura completa, as tecnologias usadas
+              e como todas as partes se comunicam.
+            </p>
+            <div class="pill-row">
+              <span class="pill"> React</span>
+              <span class="pill"> Spring Boot</span>
+              <span class="pill"> MySQL</span>
+              <span class="pill"> JWT</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide cover">
+          <div>
+            <div class="kicker">Backend 1/10</div>
+            <h1>Backend</h1>
+            <p>
+              A API Spring Boot que recebe requisições, aplica regras de negócio
+              e conversa com o banco.
+            </p>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Backend 2/10</div>
+            <h2>Responsabilidade</h2>
+            <ul>
+              <li>Expor rotas para produtos e movimentações.</li>
+              <li>Validar dados enviados pelo frontend.</li>
+              <li>Controlar regras de estoque.</li>
+              <li>Retornar respostas em JSON.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="cards">
+              <div class="card">
+                <strong>API</strong><span>Entrada oficial do sistema.</span>
+              </div>
+              <div class="card">
+                <strong>Regras</strong
+                ><span>Protege o estoque contra dados incorretos.</span>
+              </div>
+              <div class="card">
+                <strong>JSON</strong><span>Formato de troca com o React.</span>
+              </div>
+              <div class="card">
+                <strong>MySQL</strong><span>Persistência dos registros.</span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Backend 3/10</div>
+            <h2>Arquitetura em camadas</h2>
+            <p>
+              O backend foi organizado para separar HTTP, regra de negócio,
+              persistência e mapeamento das tabelas.
+            </p>
+            <ul>
+              <li>Controller recebe HTTP.</li>
+              <li>Service aplica regra de negócio.</li>
+              <li>Repository acessa dados.</li>
+              <li>Model JPA representa as tabelas do MySQL.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="flow">
+              <div class="flow-item">Controller</div>
+              <div class="arrow">→</div>
+              <div class="flow-item">Service</div>
+              <div class="arrow">→</div>
+              <div class="flow-item">Repository + JPA</div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Backend 4/10</div>
+            <h2>Endpoints de produtos</h2>
+            <ul>
+              <li>`GET /api/produtos` lista produtos.</li>
+              <li>`POST /api/produtos` cria produto.</li>
+              <li>`PUT /api/produtos/{id}` atualiza produto.</li>
+              <li>`DELETE /api/produtos/{id}` remove produto.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              { "nome": "Arroz 5kg", "preco": 24.90, "quantidade": 20,
+              "unidade": "UN" }
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Backend 5/10</div>
+            <h2>Endpoints de movimentações</h2>
+            <ul>
+              <li>`GET /api/movimentacoes` lista o histórico.</li>
+              <li>`POST /api/movimentacoes` registra entrada ou saída.</li>
+              <li>Entrada soma quantidade no produto.</li>
+              <li>Saída subtrai quantidade se houver saldo.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              { "produto_id": 1, "tipo": "SAÍDA", "quantidade": 3 }
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Backend 6/10</div>
+            <h2>Regra de estoque</h2>
+            <p>
+              A principal regra do backend é impedir que uma saída deixe o
+              estoque negativo.
+            </p>
+            <ul>
+              <li>Busca o produto no banco.</li>
+              <li>Confere a empresa atual.</li>
+              <li>Compara quantidade disponivel e quantidade solicitada.</li>
+              <li>Atualiza produto e grava histórico.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="flow">
+              <div class="flow-item">Produto</div>
+              <div class="arrow">→</div>
+              <div class="flow-item">Valida saldo</div>
+              <div class="arrow">→</div>
+              <div class="flow-item">Salva movimento</div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Backend 7/10</div>
+            <h2>Contexto de empresa</h2>
+            <p>
+              O backend separa dados por empresa usando o JWT gerado no login.
+            </p>
+            <ul>
+              <li>`empresaId` identifica a empresa no token.</li>
+              <li>`usuarioId` identifica o usuario logado.</li>
+              <li>`role` define permissões de acesso.</li>
+              <li>Headers manuais ficam apenas para testes tecnicos.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              Authorization: Bearer &lt;jwt&gt; { empresaId, usuarioId, role }
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Backend 8/10</div>
+            <h2>Acessos e permissões</h2>
+            <ul>
+              <li>O dono do software entra em `/dono-controlx`.</li>
+              <li>Somente o dono cadastra empresas clientes.</li>
+              <li>Cada empresa recebe um administrador inicial.</li>
+              <li>Usuários de empresas entram por `/login` com JWT.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="cards">
+              <div class="card">
+                <strong>Dono</strong><span>Cadastra empresas.</span>
+              </div>
+              <div class="card">
+                <strong>Admin</strong><span>Gerencia funcionários.</span>
+              </div>
+              <div class="card">
+                <strong>Movimentos</strong><span>Registrar ou imprimir.</span>
+              </div>
+              <div class="card">
+                <strong>JWT</strong><span>Identifica empresa e perfil.</span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Backend 9/10</div>
+            <h2>CORS e ambiente</h2>
+            <p>
+              O backend permite que o frontend Vite acesse a API durante o
+              desenvolvimento.
+            </p>
+            <ul>
+              <li>Frontend roda em `localhost:5173`.</li>
+              <li>Backend roda em `localhost:8080`.</li>
+              <li>Rotas `/api` são encaminhadas para o Spring Boot.</li>
+              <li>`/health` verifica se a API está ativa.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              spring.datasource.url spring.datasource.username
+              spring.datasource.password
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Backend 10/10</div>
+            <h2>Resumo do backend</h2>
+            <ul>
+              <li>Recebe pedidos do React.</li>
+              <li>Aplica regras de produtos e movimentações.</li>
+              <li>Protege a consistência do estoque.</li>
+              <li>Usa repositories para persistir no MySQL.</li>
+              <li>Usa JWT para multiempresa e autenticação real.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="flow">
+              <div class="flow-item">React</div>
+              <div class="arrow">→</div>
+              <div class="flow-item">Spring Boot</div>
+              <div class="arrow">→</div>
+              <div class="flow-item">MySQL</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide cover">
+          <div>
+            <div class="kicker">Frontend 1/10</div>
+            <h1>Frontend</h1>
+            <p>
+              A interface React que transforma dados e regras em uma experiencia
+              visual para o usuário.
+            </p>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend 2/10</div>
+            <h2>Objetivo da interface</h2>
+            <ul>
+              <li>Permitir login real de usuários de empresas.</li>
+              <li>Separar a área do dono em `/dono-controlx`.</li>
+              <li>Mostrar indicadores no dashboard.</li>
+              <li>Cadastrar e gerenciar produtos.</li>
+              <li>Registrar entradas e saídas.</li>
+              <li>Imprimir relatórios e notas operacionais.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="metric">
+              <div class="mini"><span>Dashboard</span><strong>R$</strong></div>
+              <div class="mini"><span>Produtos</span><strong>SKU</strong></div>
+              <div class="mini">
+                <span>Movimentos</span><strong>+/-</strong>
+              </div>
+              <div class="mini">
+                <span>Relatórios</span><strong>PDF</strong>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend 3/10</div>
+            <h2>Estrutura React</h2>
+            <ul>
+              <li>`App.jsx` organiza rotas, menu e tema.</li>
+              <li>`pages/` concentra as telas.</li>
+              <li>`components/` guarda partes reutilizaveis.</li>
+              <li>`services/api.js` centraliza o Axios.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              src/ App.jsx main.jsx pages/ components/ services/api.js
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend 4/10</div>
+            <h2>Rotas da aplicação</h2>
+            <p>
+              O React Router permite navegar sem recarregar a pagina inteira.
+            </p>
+            <ul>
+              <li>`/auth` para entrada de usuários cadastrados.</li>
+              <li>`/dono-controlx` para cadastro restrito de empresas.</li>
+              <li>`/` para dashboard.</li>
+              <li>`/produtos` para inventario.</li>
+              <li>`/movimentacoes` para entradas e saídas.</li>
+              <li>`/usuario` para perfil do usuário.</li>
+              <li>
+                `/usuarios-empresa` para consultar e remover funcionários.
+              </li>
+              <li>`/sobre-nos` com informacoes do projeto.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              &lt;Route path="/auth" element={&lt;Auth /&gt;} /&gt; &lt;Route
+              path="/" element={&lt;Dashboard /&gt;} /&gt; &lt;Route
+              path="/produtos" element={&lt;Produtos /&gt;} /&gt; &lt;Route
+              path="/movimentacoes" element={&lt;Movimentacoes /&gt;} /&gt;
+              &lt;Route path="/usuario" element={&lt;Usuario /&gt;} /&gt;
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend 5/10</div>
+            <h2>UX do sistema</h2>
+            <ul>
+              <li>Primeira tela mostra visão geral do estoque.</li>
+              <li>Formularios ficam proximos das tabelas.</li>
+              <li>Busca e filtros reduzem tempo de consulta.</li>
+              <li>Estados vazios explicam quando não há dados.</li>
+              <li>Alertas de estoque possuem rolagem para muitos itens.</li>
+              <li>Menu mostra apenas áreas liberadas para cada funcionário.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="cards">
+              <div class="card">
+                <strong>Rapidez</strong
+                ><span>Ações principais sempre visíveis.</span>
+              </div>
+              <div class="card">
+                <strong>Clareza</strong
+                ><span>Textos e indicadores objetivos.</span>
+              </div>
+              <div class="card">
+                <strong>Controle</strong
+                ><span>Confirmação antes de excluir.</span>
+              </div>
+              <div class="card">
+                <strong>Auditoria</strong
+                ><span>Histórico de movimentações.</span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend 6/10</div>
+            <h2>UI e identidade visual</h2>
+            <ul>
+              <li>6 temas disponíveis: 3 escuros + 3 claros.</li>
+              <li>
+                Azul corporativo, Vermelho energia, Amarelo premium (dark).
+              </li>
+              <li>Azul claro, Vermelho claro, Amarelo claro (light).</li>
+              <li>Seletor de tema fica na área do usuário.</li>
+              <li>Cada tema tem cor principal, fundo, sucesso e destaque.</li>
+              <li>API URL se ajusta automaticamente por ambiente.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="pill-row">
+              <span class="pill" style="background: #3b82f6">Azul</span
+              ><span class="pill" style="background: #ef4444">Vermelho</span
+              ><span class="pill" style="background: #f59e0b">Amarelo</span
+              ><span class="pill" style="background: #10b981">Verde</span>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend 7/10</div>
+            <h2>Conexao com a API</h2>
+            <ul>
+              <li>Axios centralizado em `src/services/api.js`.</li>
+              <li>Suporta variavel de ambiente `VITE_API_URL`.</li>
+              <li>Em produção: resolve localhost:8080 automaticamente.</li>
+              <li>Interceptador adiciona JWT token em cada requisicao.</li>
+              <li>Token armazenado em `localStorage` apos login.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              const token = localStorage.getItem("controlx-token"); if (token) {
+              config.headers.Authorization = `Bearer ${token}`; }
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend 8/10</div>
+            <h2>Dashboard</h2>
+            <ul>
+              <li>Carrega produtos e movimentações.</li>
+              <li>Calcula faturamento, custos e lucro.</li>
+              <li>Mostra itens em baixa com alerta visual.</li>
+              <li>Usa Recharts para grafico anual.</li>
+              <li>Exibe resumo de vendas e estoque por empresa.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              const [resProdutos, resMovimentacoes] = await Promise.all([
+              api.get("/produtos"), api.get("/movimentacoes"), ]);
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend 9/10</div>
+            <h2>Produtos</h2>
+            <ul>
+              <li>Formulario cria ou edita produto.</li>
+              <li>Tabela exibe nome, preco, quantidade e unidade.</li>
+              <li>Busca por nome do produto.</li>
+              <li>Filtro opcional por unidade.</li>
+              <li>Badge visual indica nivel de estoque (critico/baixo/ok).</li>
+              <li>Sincroniza com backend em tempo real.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              if (idEdicao) { await api.put(`/produtos/${idEdicao}`, dados); }
+              else { await api.post("/produtos", dados); }
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend 10/10</div>
+            <h2>Movimentações</h2>
+            <ul>
+              <li>Seleciona produto com `react-select`.</li>
+              <li>Alterna entre ENTRADA e SAÍDA.</li>
+              <li>Valida quantidade disponível antes de enviar.</li>
+              <li>Registra cada movimento no backend com timestamp.</li>
+              <li>Exibe histórico completo de movimentações.</li>
+              <li>Usa validação de estoque (não deixa sair negativo).</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              await api.post("/movimentacoes", { ...form, quantidade:
+              Number(form.quantidade), tipo: "ENTRADA" | "SAÍDA" });
+            </div>
+          </div>
+        </article>
+
+        <article class="slide">
+          <div>
+            <div class="kicker">Frontend Resumo</div>
+            <h2>Resumo do frontend</h2>
+            <ul>
+              <li>
+                6 temas visíveis: 3 dark (Azul, Vermelho, Amarelo) + 3 light.
+              </li>
+              <li>Conecta a API com Axios via `src/services/api.js`.</li>
+              <li>Envia JWT automaticamente em cada requisição.</li>
+              <li>
+                Usa React hooks (useState, useEffect) para estado dinâmico.
+              </li>
+              <li>Rotas protegidas por autenticação JWT.</li>
+              <li>Responsivo e multi-empresa isolada por token.</li>
+              <li>
+                Separa telas por função: dashboard, produtos, movimentações,
+                usuários.
+              </li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="flow">
+              <div class="flow-item">Temas</div>
+              <div class="arrow">+</div>
+              <div class="flow-item">React</div>
+              <div class="arrow">+</div>
+              <div class="flow-item">JWT</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide cover">
+          <div>
+            <div class="kicker">Banco 1/10</div>
+            <h1>Banco de Dados</h1>
+            <p>
+              O MySQL guarda os dados persistentes do ControlX e define os
+              relacionamentos principais.
+            </p>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Banco 2/10</div>
+            <h2>Banco utilizado</h2>
+            <ul>
+              <li>SGBD: MySQL.</li>
+              <li>Banco local padrao: `estoque_inteligente`.</li>
+              <li>Conexao configurada em `application.properties`.</li>
+              <li>Spring Data JPA faz o mapeamento Java -> SQL.</li>
+              <li>Arquivos base: `schema.sql` e `seed.sql`.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              spring.datasource.url=jdbc:mysql://localhost:3306/estoque_inteligente
+              spring.datasource.username=root spring.datasource.password=
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Banco 3/10</div>
+            <h2>Tabela empresas</h2>
+            <ul>
+              <li>Representa uma organização dona dos dados.</li>
+              <li>
+                Tem `id`, `nome`, `cnpj`, `tema_empresa_id` e `created_at`.
+              </li>
+              <li>`cnpj` possui chave única.</li>
+              <li>Serve como raiz do modelo multiempresa.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="table-box">
+              <div class="table-title">empresas</div>
+              <div>id BIGINT PK</div>
+              <div>nome VARCHAR(150)</div>
+              <div>cnpj VARCHAR(20) UNIQUE</div>
+              <div>tema_empresa_id VARCHAR(40)</div>
+              <div>created_at DATETIME</div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Banco 4/10</div>
+            <h2>Tabela usuários</h2>
+            <ul>
+              <li>Cada usuário pertence a uma empresa.</li>
+              <li>Guarda nome, email e senha criptografada.</li>
+              <li>`email` e único.</li>
+              <li>`role` separa ADMIN, OPERADOR e VISUALIZADOR.</li>
+              <li>Também armazena permissões, `ativo` e `session_version`.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="table-box">
+              <div class="table-title">usuários</div>
+              <div>empresa_id FK</div>
+              <div>email UNIQUE</div>
+              <div>password_hash</div>
+              <div>role ADMIN/OPERADOR/VISUALIZADOR</div>
+              <div>permissões + ativo + session_version</div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Banco 5/10</div>
+            <h2>Tabela produtos</h2>
+            <ul>
+              <li>Guarda os itens do estoque.</li>
+              <li>Tem nome, preço, quantidade e unidade.</li>
+              <li>Produto pertence a uma empresa.</li>
+              <li>Tem `created_at` e `updated_at` para auditoria.</li>
+              <li>Nome não pode repetir dentro da mesma empresa.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="table-box">
+              <div class="table-title">produtos</div>
+              <div>empresa_id FK</div>
+              <div>nome VARCHAR(120)</div>
+              <div>preço DECIMAL(10,2)</div>
+              <div>quantidade INT</div>
+              <div>unidade VARCHAR(20)</div>
+              <div>created_at / updated_at</div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Banco 6/10</div>
+            <h2>Tabela movimentações</h2>
+            <ul>
+              <li>Registra toda entrada ou saída.</li>
+              <li>Vincula empresa e produto.</li>
+              <li>`tipo` aceita `ENTRADA` ou `SAÍDA`.</li>
+              <li>`created_at` permite histórico por data.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="table-box">
+              <div class="table-title">movimentacoes</div>
+              <div>empresa_id FK</div>
+              <div>produto_id FK</div>
+              <div>tipo ENUM</div>
+              <div>quantidade INT</div>
+              <div>created_at DATETIME</div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Banco 7/10</div>
+            <h2>Onde liga no sistema</h2>
+            <ul>
+              <li>`application.properties` define a conexao com o MySQL.</li>
+              <li>As classes `model` mapeiam as tabelas com JPA.</li>
+              <li>Os `repositories` executam consultas e persistência.</li>
+              <li>Os `services` chamam `save`, `findBy...` e `delete`.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              Frontend -> /api -> Controller -> Service -> Repository -> MySQL
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Banco 8/10</div>
+            <h2>Relacionamentos</h2>
+            <p>
+              O modelo relacional garante isolamento por empresa e histórico por
+              produto.
+            </p>
+            <ul>
+              <li>Uma empresa tem muitos usuários.</li>
+              <li>Uma empresa tem muitos produtos.</li>
+              <li>Uma empresa tem muitas movimentações.</li>
+              <li>Um produto tem muitas movimentações.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              empresas 1 -> N usuários empresas 1 -> N produtos empresas 1 -> N
+              movimentações produtos 1 -> N movimentações
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Banco 9/10</div>
+            <h2>Chaves e integridade</h2>
+            <ul>
+              <li>Foreign keys evitam registros soltos.</li>
+              <li>Chaves únicas evitam duplicidade indevida.</li>
+              <li>Indices por empresa aceleram filtros multiempresa.</li>
+              <li>Índices por nome e data ajudam busca e relatórios.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              fk_usuarios_empresa fk_produtos_empresa fk_movimentacoes_empresa
+              fk_movimentacoes_produto
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Banco 10/10</div>
+            <h2>Resumo do banco</h2>
+            <ul>
+              <li>Armazena empresas, usuários, produtos e movimentações.</li>
+              <li>
+                Se conecta ao sistema por datasource + JPA + repositories.
+              </li>
+              <li>Garante relacionamento entre dados.</li>
+              <li>Ajuda a separar informações por empresa.</li>
+              <li>Registra histórico operacional.</li>
+              <li>Dá base para relatórios e dashboards.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="schema">
+              <div class="table-box">
+                <div class="table-title">empresas</div>
+                <div>raiz dos dados</div>
+              </div>
+              <div class="table-box">
+                <div class="table-title">usuarios</div>
+                <div>acesso</div>
+              </div>
+              <div class="table-box">
+                <div class="table-title">produtos</div>
+                <div>estoque atual</div>
+              </div>
+              <div class="table-box">
+                <div class="table-title">movimentações</div>
+                <div>histórico</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide cover">
+          <div>
+            <div class="kicker">Codex 1/5</div>
+            <h1>Como usamos o Codex</h1>
+            <p>
+              O Codex ajudou a entender o projeto, organizar os arquivos e
+              explicar a integração completa.
+            </p>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Codex 2/5</div>
+            <h2>Leitura do projeto</h2>
+            <ul>
+              <li>Mapeamos a estrutura do frontend React.</li>
+              <li>Lemos os documentos do backend Spring Boot.</li>
+              <li>Conferimos o schema SQL do MySQL.</li>
+              <li>Identificamos o fluxo real entre as partes.</li>
+              <li>Centralizamos a documentação nova dentro de `docs/`.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="code">
+              docs/README.md docs/guias/ARQUITETURA.md
+              docs/guias/BANCO-DE-DADOS.md docs/guias/API-E-FLUXOS.md
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Codex 3/5</div>
+            <h2>União dos sistemas</h2>
+            <p>
+              O ponto central foi mostrar como uma ação do usuário passa por
+              todas as camadas.
+            </p>
+            <ul>
+              <li>Usuario preenche uma tela.</li>
+              <li>React chama Axios.</li>
+              <li>Backend recebe em `/api`.</li>
+              <li>Service valida regra.</li>
+              <li>Repository grava no MySQL.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="flow">
+              <div class="flow-item">React</div>
+              <div class="arrow">→</div>
+              <div class="flow-item">Spring Boot</div>
+              <div class="arrow">→</div>
+              <div class="flow-item">MySQL</div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Codex 4/5</div>
+            <h2>Documentação e apresentação</h2>
+            <ul>
+              <li>Transformamos código em explicação simples.</li>
+              <li>Incluimos exemplos de endpoints e tabelas.</li>
+              <li>Organizamos a fala para backend, frontend e banco.</li>
+              <li>Comentamos os pontos centrais da conexao com o banco.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="cards">
+              <div class="card">
+                <strong>Antes</strong
+                ><span>Codigo espalhado em varias pastas.</span>
+              </div>
+              <div class="card">
+                <strong>Depois</strong
+                ><span
+                  >Documentação e apresentação organizadas por assunto.</span
+                >
+              </div>
+              <div class="card">
+                <strong>Clareza</strong
+                ><span>Menos termos soltos, mais fluxo.</span>
+              </div>
+              <div class="card">
+                <strong>Entrega</strong
+                ><span>slides + docs tecnicas na pasta docs</span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="slide">
+          <div>
+            <div class="kicker">Codex 5/5</div>
+            <h2>Fechamento</h2>
+            <p>
+              O Codex funcionou como apoio tecnico para ligar as ideias:
+              interface, regra de negócio e persistência.
+            </p>
+            <ul>
+              <li>Frontend cria a experiencia.</li>
+              <li>Backend protege as regras.</li>
+              <li>Banco preserva os dados.</li>
+              <li>Codex ajudou a juntar tudo em uma narrativa única.</li>
+            </ul>
+          </div>
+          <div class="visual">
+            <div class="flow">
+              <div class="flow-item">UX/UI</div>
+              <div class="arrow">+</div>
+              <div class="flow-item">API</div>
+              <div class="arrow">+</div>
+              <div class="flow-item">Dados</div>
+            </div>
+          </div>
+        </article>
+        <article class="slide final-slide" data-autoplay-audio="final-audio">
+          <div class="final-copy">
+            <div class="kicker">Slide 38/38</div>
+            <h1>Bem, amigos... terminou.</h1>
+            <p>
+              Obrigado pela atencao. A resenha acabou, mas o ControlX ficou de
+              pé. Sistema robusto, seguro e pronto para produção.
+            </p>
+            <audio
+              id="final-audio"
+              class="final-audio"
+              src="bem-amigos-terminou.mp3"
+              controls
+              preload="auto"
+            ></audio>
+          </div>
+          <div class="photo-frame">
+            <img
+              src="foto-nos-3.jpeg"
+              alt="Foto dos tres integrantes do grupo"
+              style="max-width: 300px; max-height: 400px; object-fit: cover;"
+              onload="this.nextElementSibling.style.display = 'none'"
+              onerror="this.style.display = 'none'"
+            />
+            <div class="photo-placeholder">
+              <strong>Foto de nos 3</strong>
+              <span>Depois coloque o arquivo foto-nos-3.jpg nesta pasta.</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="controls">
+        <button type="button" id="prev">Anterior</button>
+        <span class="hint"></span>
+        <button type="button" id="next">Proximo</button>
+      </footer>
+    </main>
+
+    <script>
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const counter = document.querySelector("#counter");
+      const prev = document.querySelector("#prev");
+      const next = document.querySelector("#next");
+      let current = 0;
+
+      function render() {
+        slides.forEach((slide, index) => {
+          slide.classList.toggle("active", index === current);
+        });
+
+        document.querySelectorAll("audio").forEach((audio) => {
+          const shouldPlay = slides[current].dataset.autoplayAudio === audio.id;
+
+          if (shouldPlay) {
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+            return;
+          }
+
+          audio.pause();
+          audio.currentTime = 0;
+        });
+
+        counter.textContent = `Slide ${current + 1} de ${slides.length}`;
+        prev.disabled = current === 0;
+        next.disabled = current === slides.length - 1;
+      }
+
+      function goTo(index) {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        render();
+      }
+
+      prev.addEventListener("click", () => goTo(current - 1));
+      next.addEventListener("click", () => goTo(current + 1));
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === "PageDown") {
+          goTo(current + 1);
+        }
+
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+          goTo(current - 1);
+        }
+      });
+
+      render();
+    </script>
+  </body>
+</html>
